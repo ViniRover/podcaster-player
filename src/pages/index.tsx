@@ -17,7 +17,6 @@ type Episode = {
   publishedAt: string;
   duration: number;
   durationAsString: string;
-  description: string;
   url: string;
 }
 
@@ -129,7 +128,6 @@ export const getStaticProps: GetStaticProps = async () => {
       }),
       duration: episode.file.duration,
       durationAsString: convertDurationToTimeString(episode.file.duration),
-      description: episode.description,
       url: episode.file.url
     };
   });

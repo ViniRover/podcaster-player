@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
+import Head from "next/head";
 import Link from 'next/link';
 import { GetStaticPaths, GetStaticProps } from "next";
 import { format, parseISO } from "date-fns";
@@ -9,6 +10,7 @@ import { api } from "../../services/api";
 import { convertDurationToTimeString } from "../../utils/convertDurationToTimeString";
 
 import styles from './episode.module.scss';
+import { usePlayer } from "../../contexts/PlayerContext";
 
 type Episode = {
   id: string;
@@ -27,8 +29,14 @@ type EpisodeProps = {
 }
 
 export default function Episode({ episode }: EpisodeProps) {
+  const { playEpisode } = usePlayer();
+
   return(
     <div className={styles.episode}>
+      <Head>
+        <title>Episode | {episode.title}</title>
+      </Head>
+
       <div className={styles.thumbnailContainer}>
         <Link href="/" passHref>
           <button type="button">
@@ -42,7 +50,7 @@ export default function Episode({ episode }: EpisodeProps) {
           objectFit="cover"
           alt={episode.title}
         />
-        <button type="button">
+        <button type="button" onClick={() => playEpisode(episode)}>
           <img src="/play.svg" alt="Play episode" />
         </button>
       </div>
